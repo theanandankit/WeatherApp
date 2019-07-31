@@ -213,30 +213,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
              imageView.setImageResource(R.drawable.cloud);
              mn.setText(description);
 
-       /*     if(desc=="Clouds") {
-                Uri uri=Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.clouds1);
-                videoView.setVideoURI(uri);
-            } else if(desc=="Clear") {
-                Uri uri=Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.clear);
-                videoView.setVideoURI(uri);
-            } else if(desc=="Snow") {
-                Uri uri=Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.snow1);
-                videoView.setVideoURI(uri);
-            } else if(desc=="Rain") {
-                Uri uri=Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.rain3);
-                videoView.setVideoURI(uri);
-            }
-            else if(desc=="Thunterstorm") {
-                Uri uri=Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.thunderstrom);
-                videoView.setVideoURI(uri);
-            } else {
-                Uri uri=Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.haze);
-                videoView.setVideoURI(uri);
-            }
-            */
-
-            //  videoView.start();
-
         }
 
         private String gettime(long a) {
