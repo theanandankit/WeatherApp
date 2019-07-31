@@ -13,6 +13,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -30,6 +31,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.FieldPosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,11 +39,11 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity implements LocationListener {
     public static double log, lat;
     LocationManager locationManager;
-    public static String fg, name, desc, io, humidity, pressure, speed;
+    public static String fg, name, desc, io, humidity, pressure, speed,description;
     public String TAG="MainActivity.class";
     public static int temp, visibility;
     public static long sunr, suns;
-    public TextView jk, hj, gh, sd, df;
+    public TextView jk, hj, gh, sd, df,mn;
     public static StringBuilder output = new StringBuilder();
     public static String[] k = new String[6];
     public ListView lf, ri;
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         gh = findViewById(R.id.cond);
         sd = findViewById(R.id.log);
         df = findViewById(R.id.lat);
+        mn = findViewById(R.id.des);
         imageView =(ImageView)findViewById(R.id.image);
 
         lf = findViewById(R.id.listl);
@@ -164,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     JSONArray sa = baseoject.getJSONArray("weather");
                     JSONObject des = sa.getJSONObject(0);
                     desc = des.getString("main");
+                    description=des.getString("description");
 
                     humidity = humidity + "%";
                     pressure = pressure + "hPa";
@@ -207,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
              ri.setAdapter(arrayAdapter2);
              ri.deferNotifyDataSetChanged();
              imageView.setImageResource(R.drawable.cloud);
+             mn.setText(description);
 
        /*     if(desc=="Clouds") {
                 Uri uri=Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.clouds1);

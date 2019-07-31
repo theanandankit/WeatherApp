@@ -55,6 +55,11 @@
         android:layout_below="@id/image"
         android:layout_marginTop="8dp"
         android:layout_alignParentRight="true"
+        android:text="des"
+        android:id="@+id/des"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginRight="40dp"
         />
 
     <LinearLayout
