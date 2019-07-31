@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public static ArrayAdapter<String> arrayAdapter, arrayAdapter2;
     int abc=20;
     public static ImageView imageView;
-
+//I am testing this file
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
