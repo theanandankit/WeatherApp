@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,11 +14,11 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 import android.widget.VideoView;
 
 import org.json.JSONArray;
@@ -31,7 +32,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.FieldPosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,9 +50,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public VideoView videoView;
     public static ArrayList<String> as = new ArrayList<>();
     public static ArrayAdapter<String> arrayAdapter, arrayAdapter2;
-    int abc=20;
     public static ImageView imageView;
-//I am testing this file
+    public static SharedPreferences sharedPreferences;
+    public static SharedPreferences.Editor editor;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,11 +76,24 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         sd = findViewById(R.id.log);
         df = findViewById(R.id.lat);
         mn = findViewById(R.id.des);
-        imageView =(ImageView)findViewById(R.id.image);
+        imageView =findViewById(R.id.image);
+        Toolbar toolbar=findViewById(R.id.tool);
 
         lf = findViewById(R.id.listl);
         ri = findViewById(R.id.listr);
         lf.setAdapter(arrayAdapter);
+
+        //shared prefrance setting
+
+        sharedPreferences=MainActivity.this.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        editor =sharedPreferences.edit();
+
+
+        //setting toolbar
+        toolbar.setTitle("current location");
+        toolbar.setSubtitle("gwalior");
+
+
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -95,7 +110,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         } catch (SecurityException e) {
             e.printStackTrace();
         }
-        int a=this.abc;
     }
 
     @Override
@@ -210,8 +224,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
              as.add(gettime(suns));
              ri.setAdapter(arrayAdapter2);
              ri.deferNotifyDataSetChanged();
-             imageView.setImageResource(R.drawable.cloud);
+             imageView.setImageResource(R.drawable.rain);
              mn.setText(description);
+             updatevalue();
 
         }
 
@@ -224,5 +239,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             String formattedDate = sdf.format(date);
             return formattedDate;
         }
+    }
+
+    private void updatevalue()
+    {
+        editor.putString("place",name);
+        editor.putString("temperature",io);
+        editor.putString("condition",desc);
+        editor.putString("description",description);
+        editor.putString("humidity",humidity);
+        editor.putString("pressure",pressure);
+        editor.putString("visibility",fg);
+        editor.putString("speed",speed);
+        editor.putLong("sunrise",sunr);
+        editor.putLong("sunset",suns);
+        editor.apply();
     }
 }
