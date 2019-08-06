@@ -1,11 +1,16 @@
 package com.example.weatherapp;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -14,12 +19,15 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 import android.widget.VideoView;
+
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,14 +44,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements LocationListener {
+public class MainActivity extends AppCompatActivity implements LocationListener, NavigationView.OnNavigationItemSelectedListener {
     public static double log, lat;
     LocationManager locationManager;
-    public static String fg, name, desc, io, humidity, pressure, speed,description;
-    public String TAG="MainActivity.class";
+    public static String fg, name, desc, io, humidity, pressure, speed, description;
+    public String TAG = "MainActivity.class";
     public static int temp, visibility;
     public static long sunr, suns;
-    public TextView jk, hj, gh, sd, df,mn;
+    public TextView jk, hj, gh, sd, df, mn;
     public static StringBuilder output = new StringBuilder();
     public static String[] k = new String[6];
     public ListView lf, ri;
@@ -59,8 +67,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        k[0] = "HUMADITY";
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+
+        k[0] = "HUMIDITY";
         k[1] = "PRESSURE";
         k[2] = "VISIBILITY";
         k[3] = "WIND SPEED";
@@ -70,29 +88,30 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, k);
         arrayAdapter2 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, as);
 
+        sharedPreferences = MainActivity.this.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
         jk = findViewById(R.id.place);
+        jk.setText(sharedPreferences.getString("place","Place"));
         hj = findViewById(R.id.tempc);
+        hj.setText(sharedPreferences.getString("temperature","temp"));
         gh = findViewById(R.id.cond);
+        gh.setText(sharedPreferences.getString("condition","cond"));
         sd = findViewById(R.id.log);
         df = findViewById(R.id.lat);
         mn = findViewById(R.id.des);
-        imageView =findViewById(R.id.image);
-        Toolbar toolbar=findViewById(R.id.tool);
+        imageView = findViewById(R.id.image);
+
 
         lf = findViewById(R.id.listl);
         ri = findViewById(R.id.listr);
         lf.setAdapter(arrayAdapter);
 
-        //shared prefrance setting
-
-        sharedPreferences=MainActivity.this.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
-        editor =sharedPreferences.edit();
+        //  shared prefrance setting
 
 
-        //setting toolbar
-        toolbar.setTitle("current location");
-        toolbar.setSubtitle("gwalior");
 
+        // location permission
 
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -102,8 +121,63 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         getLocation();
     }
 
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_nav, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.more_info) {
+
+            Intent moreinfo =new Intent(this,moreinfo.class);
+            startActivity(moreinfo);
+        } else if (id == R.id.about_app) {
+
+            Intent aboutapp=new Intent(this,aboutapp.class);
+            startActivity(aboutapp);
+        }
+
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
     void getLocation() {
-        int abc=10;
         try {
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5, this);
@@ -150,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
             try {
                 URL url = new URL(iu);
-                Log.e("inside try catch",url.toString());
+                Log.e("inside try catch", url.toString());
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
@@ -171,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     humidity = weather.getString("humidity");
                     pressure = weather.getString("pressure");
                     temp = weather.getInt("temp");
-                    visibility = baseoject.getInt("visibility");
+//                    visibility = baseoject.getInt("visibility");
                     JSONObject wind = baseoject.getJSONObject("wind");
                     speed = wind.getString("speed");
                     JSONObject sys = baseoject.getJSONObject("sys");
@@ -181,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     JSONArray sa = baseoject.getJSONArray("weather");
                     JSONObject des = sa.getJSONObject(0);
                     desc = des.getString("main");
-                    description=des.getString("description");
+                    description = des.getString("description");
 
                     humidity = humidity + "%";
                     pressure = pressure + "hPa";
@@ -216,19 +290,21 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             jk.setText(name);
             hj.setText(io);
             gh.setText(desc);
-           as.add(humidity);
-             as.add(pressure);
-             as.add(fg);
-             as.add(speed);
-             as.add(gettime(sunr));
-             as.add(gettime(suns));
-             ri.setAdapter(arrayAdapter2);
-             ri.deferNotifyDataSetChanged();
-             imageView.setImageResource(R.drawable.rain);
-             mn.setText(description);
-             updatevalue();
+            as.add(humidity);
+            as.add(pressure);
+            as.add(fg);
+            as.add(speed);
+            as.add(gettime(sunr));
+            as.add(gettime(suns));
+            ri.setAdapter(arrayAdapter2);
+            ri.deferNotifyDataSetChanged();
+            imageView.setImageResource(R.drawable.cloud_sun);
+            mn.setText(description);
+            updatevalue();
 
         }
+
+        // conversion of unix time into normal time
 
         private String gettime(long a) {
             Date date = new java.util.Date(a * 1000L);
@@ -241,18 +317,21 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
     }
 
-    private void updatevalue()
-    {
-        editor.putString("place",name);
-        editor.putString("temperature",io);
-        editor.putString("condition",desc);
-        editor.putString("description",description);
-        editor.putString("humidity",humidity);
-        editor.putString("pressure",pressure);
-        editor.putString("visibility",fg);
-        editor.putString("speed",speed);
-        editor.putLong("sunrise",sunr);
-        editor.putLong("sunset",suns);
+    // updating the shared prefrance value
+
+    private void updatevalue() {
+        editor.putString("place", name);
+        editor.putString("temperature", io);
+        editor.putString("condition", desc);
+        editor.putString("description", description);
+        editor.putString("humidity", humidity);
+        editor.putString("pressure", pressure);
+        editor.putString("visibility", fg);
+        editor.putString("speed", speed);
+        editor.putLong("sunrise", sunr);
+        editor.putLong("sunset", suns);
         editor.apply();
+
     }
+
 }

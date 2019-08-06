@@ -4,130 +4,150 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    >
-
-
-    <include
-        layout="@layout/toolbarlayout"
-        android:id="@+id/tool">
-
-
-    </include>
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/mainframe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mainframe"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:id="@+id/cityinfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/cityinfo"
-            android:layout_weight="1">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="50dp"
-        android:layout_marginTop="70dp"
-        android:layout_marginLeft="30dp"
-        android:textStyle="bold"
-        android:id="@+id/place"
-        android:text="CITY"
-        />
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tempc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/place"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="30dp"
-        android:text="TEMP"
-        android:textSize="50dp"
-        android:textStyle="bold" />
+            <TextView
+                android:id="@+id/place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="70dp"
+                android:text="CITY"
+                android:textSize="50dp"
+                android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/cond"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tempc"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="8dp"
-        android:text="CONDITION"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tempc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/place"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="8dp"
+                android:text="TEMP"
+                android:textSize="50dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/cond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tempc"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="8dp"
+                android:text="CONDITION"
+                android:textSize="30dp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/cityinfo"
-            android:orientation="vertical"
             android:layout_weight="1"
-            >
-    <ImageView
+            android:orientation="vertical">
 
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:id="@+id/image"
-       android:layout_marginLeft="20dp"
-        android:layout_marginTop="70dp"
-        />
+            <ImageView
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/image"
-        android:layout_marginTop="8dp"
-        android:text="des"
-        android:id="@+id/des"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:layout_marginLeft="20dp"
-        />
+                android:id="@+id/image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="70dp" />
+
+            <TextView
+                android:id="@+id/des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/image"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:text="des"
+                android:textSize="20dp"
+                android:textStyle="bold" />
         </RelativeLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/mainframe">
+        android:layout_below="@id/mainframe"
+        android:orientation="horizontal">
 
         <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="40dp"
             android:id="@+id/listl"
-            android:layout_weight="1"/>
-        <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="40dp"
-            android:id="@+id/listr"
-            android:textAlignment="viewEnd"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
+        <ListView
+            android:id="@+id/listr"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="40dp"
+            android:layout_weight="1"
+            android:textAlignment="viewEnd" />
 
 
     </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/log"
-        android:text="log"/>
 
     <TextView
+        android:id="@+id/log"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:text="log" />
+
+    <TextView
         android:id="@+id/lat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_toRightOf="@id/log"
-        android:text="lat"
-        />
+        android:text="lat" />
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:openDrawer="start">
+
+        <include
+            layout="@layout/app_bar_main_nav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/nav_header_main_nav"
+            app:menu="@menu/activity_main_nav_drawer" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+
+
 
 </RelativeLayout>
