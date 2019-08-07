@@ -109,19 +109,16 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/log"
+        android:id="@+id/data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
         android:text="log" />
 
-    <TextView
-        android:id="@+id/lat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@id/log"
-        android:text="lat" />
+
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"

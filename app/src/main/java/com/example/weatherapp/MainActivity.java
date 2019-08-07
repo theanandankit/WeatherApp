@@ -95,8 +95,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         hj = findViewById(R.id.tempc);
         gh = findViewById(R.id.cond);
 
-        sd = findViewById(R.id.log);
-        df = findViewById(R.id.lat);
+        sd = findViewById(R.id.data);
         mn = findViewById(R.id.des);
         imageView = findViewById(R.id.image);
 
@@ -188,8 +187,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     public void onLocationChanged(Location location) {
         log = location.getLongitude();
         lat = location.getLatitude();
-        sd.setText("Longtude: " + Double.toString(log));
-        df.setText("Latitude: " + Double.toString(lat));
         // new data().execute();
         data ds = new data();
         ds.execute();
@@ -299,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             imageView.setImageResource(R.drawable.cloud_sun);
             mn.setText(description);
             updatevalue();
-
+            sd.setText(getcurrenttime());
         }
 
         // conversion of unix time into normal time
@@ -328,6 +325,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         editor.putString("speed", speed);
         editor.putLong("sunrise", sunr);
         editor.putLong("sunset", suns);
+
         editor.apply();
 
     }
@@ -344,7 +342,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         as.add(sharedPreferences.getString("speed","speed"));
         as.add(Double.toString(sharedPreferences.getLong("sunrise",0000)));
         as.add(Double.toString(sharedPreferences.getLong("sunset",0000)));
-
     }
 
+    private String getcurrenttime()
+    {
+        Date today = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
+        String dateToStr = format.format(today);
+        return ("Last update: "+dateToStr);
+    }
 }
