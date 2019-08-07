@@ -92,11 +92,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         editor = sharedPreferences.edit();
 
         jk = findViewById(R.id.place);
-        jk.setText(sharedPreferences.getString("place","Place"));
         hj = findViewById(R.id.tempc);
-        hj.setText(sharedPreferences.getString("temperature","temp"));
         gh = findViewById(R.id.cond);
-        gh.setText(sharedPreferences.getString("condition","cond"));
+
         sd = findViewById(R.id.log);
         df = findViewById(R.id.lat);
         mn = findViewById(R.id.des);
@@ -331,6 +329,21 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         editor.putLong("sunrise", sunr);
         editor.putLong("sunset", suns);
         editor.apply();
+
+    }
+
+    private void set_initial_value()
+    {
+        jk.setText(sharedPreferences.getString("place","Place"));
+        hj.setText(sharedPreferences.getString("temperature","temp"));
+        gh.setText(sharedPreferences.getString("condition","cond"));
+        mn.setText(sharedPreferences.getString("description","des"));
+        as.add(sharedPreferences.getString("humidity","humidity"));
+        as.add(sharedPreferences.getString("pressure","pressure"));
+        as.add(sharedPreferences.getString("visibility","visibility"));
+        as.add(sharedPreferences.getString("speed","speed"));
+        as.add(Double.toString(sharedPreferences.getLong("sunrise",0000)));
+        as.add(Double.toString(sharedPreferences.getLong("sunset",0000)));
 
     }
 
