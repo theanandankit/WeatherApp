@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -42,6 +43,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements LocationListener, NavigationView.OnNavigationItemSelectedListener {
@@ -278,7 +280,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         protected void onPostExecute(String a) {
             super.onPostExecute(a);
 
-
             display_value();
             updatevalue();
         }
@@ -354,8 +355,46 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
         ri.setAdapter(arrayAdapter2);
         ri.deferNotifyDataSetChanged();
-        imageView.setImageResource(R.drawable.cloud_sun);
+        imageView.setImageResource(updateimage(desc));
         mn.setText(description);
         sd.setText(getcurrenttime());
+    }
+    private int updateimage(String a)
+    {
+
+        Toast.makeText(this,a, Toast.LENGTH_SHORT).show();
+
+        Calendar c = Calendar.getInstance();
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+
+        if(a=="Thunderstorm") {
+            return R.drawable.storm;
+               }
+         if(a=="Rain") {
+
+            if(timeOfDay >= 5 && timeOfDay <=18)
+                 return R.drawable.rain;
+            else
+                return R.drawable.night_rain;
+
+        }
+         if(a=="Clear")
+        {
+            if(timeOfDay >= 5 && timeOfDay <=18)
+                return R.drawable.sun;
+            else
+                return R.drawable.moon;
+        }
+        if (a=="Clouds")
+        {
+            Toast.makeText(this,Double.toString(timeOfDay), Toast.LENGTH_SHORT).show();
+            if(timeOfDay >= 5 && timeOfDay <=18)
+                return R.drawable.cloud_sun;
+            else
+                return R.drawable.cloudy_moon;
+        }
+        else
+            return R.drawable.cloud;
+
     }
 }
