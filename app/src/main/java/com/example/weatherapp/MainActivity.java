@@ -94,22 +94,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         jk = findViewById(R.id.place);
         hj = findViewById(R.id.tempc);
         gh = findViewById(R.id.cond);
-
         sd = findViewById(R.id.data);
         mn = findViewById(R.id.des);
         imageView = findViewById(R.id.image);
-
-
         lf = findViewById(R.id.listl);
         ri = findViewById(R.id.listr);
         lf.setAdapter(arrayAdapter);
 
-        //  shared prefrance setting
+        // setting the initial value
 
-
+      //  set_initial_value();
 
         // location permission
-
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -282,34 +278,21 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         protected void onPostExecute(String a) {
             super.onPostExecute(a);
 
-            jk.setText(name);
-            hj.setText(io);
-            gh.setText(desc);
-            as.add(humidity);
-            as.add(pressure);
-            as.add(fg);
-            as.add(speed);
-            as.add(gettime(sunr));
-            as.add(gettime(suns));
-            ri.setAdapter(arrayAdapter2);
-            ri.deferNotifyDataSetChanged();
-            imageView.setImageResource(R.drawable.cloud_sun);
-            mn.setText(description);
+            display_value();
             updatevalue();
-            sd.setText(getcurrenttime());
         }
+    }
 
-        // conversion of unix time into normal time
+    // conversion of unix time into normal time
 
-        private String gettime(long a) {
-            Date date = new java.util.Date(a * 1000L);
+    private String gettime(long a) {
+        Date date = new java.util.Date(a * 1000L);
 
-            SimpleDateFormat sdf = new java.text.SimpleDateFormat("hh:mm a");
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat("hh:mm a");
 
-            sdf.setTimeZone(java.util.TimeZone.getTimeZone("GMT+5:30"));
-            String formattedDate = sdf.format(date);
-            return formattedDate;
-        }
+        sdf.setTimeZone(java.util.TimeZone.getTimeZone("GMT+5:30"));
+        String formattedDate = sdf.format(date);
+        return formattedDate;
     }
 
     // updating the shared prefrance value
@@ -350,5 +333,25 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
         String dateToStr = format.format(today);
         return ("Last update: "+dateToStr);
+    }
+
+    private void display_value()
+    {
+        jk.setText(name);
+        hj.setText(io);
+        gh.setText(desc);
+        as.add(humidity);
+        as.add(pressure);
+        as.add(fg);
+        as.add(speed);
+        as.add(gettime(sunr));
+        as.add(gettime(suns));
+
+        ri.setAdapter(arrayAdapter2);
+        ri.deferNotifyDataSetChanged();
+        imageView.setImageResource(R.drawable.cloud_sun);
+        mn.setText(description);
+
+        sd.setText(getcurrenttime());
     }
 }
