@@ -367,10 +367,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
-        if(a=="Thunderstorm") {
+        if(a.equals("Thunderstorm")) {
             return R.drawable.storm;
                }
-         if(a=="Rain") {
+         if(a.equals("Rain")) {
 
             if(timeOfDay >= 5 && timeOfDay <=18)
                  return R.drawable.rain;
@@ -378,14 +378,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 return R.drawable.night_rain;
 
         }
-         if(a=="Clear")
+         if(a.equals("Clear"))
         {
             if(timeOfDay >= 5 && timeOfDay <=18)
                 return R.drawable.sun;
             else
                 return R.drawable.moon;
         }
-        if (a=="Clouds")
+        if (a.equals("Clouds"))
         {
             Toast.makeText(this,Double.toString(timeOfDay), Toast.LENGTH_SHORT).show();
             if(timeOfDay >= 5 && timeOfDay <=18)
