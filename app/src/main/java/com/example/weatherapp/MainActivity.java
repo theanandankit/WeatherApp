@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
         // setting the initial value
 
-      //  set_initial_value();
+        set_initial_value();
 
         // location permission
 
@@ -278,6 +278,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         protected void onPostExecute(String a) {
             super.onPostExecute(a);
 
+
             display_value();
             updatevalue();
         }
@@ -325,6 +326,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         as.add(sharedPreferences.getString("speed","speed"));
         as.add(Double.toString(sharedPreferences.getLong("sunrise",0000)));
         as.add(Double.toString(sharedPreferences.getLong("sunset",0000)));
+        ri.setAdapter(arrayAdapter2);
     }
 
     private String getcurrenttime()
@@ -337,6 +339,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     private void display_value()
     {
+
+        as.clear();
         jk.setText(name);
         hj.setText(io);
         gh.setText(desc);
@@ -347,11 +351,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         as.add(gettime(sunr));
         as.add(gettime(suns));
 
+
         ri.setAdapter(arrayAdapter2);
         ri.deferNotifyDataSetChanged();
         imageView.setImageResource(R.drawable.cloud_sun);
         mn.setText(description);
-
         sd.setText(getcurrenttime());
     }
 }
