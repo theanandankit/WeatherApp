@@ -49,7 +49,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity implements LocationListener, NavigationView.OnNavigationItemSelectedListener {
     public static double log, lat;
     LocationManager locationManager;
-    public static String fg, name, desc, io, humidity, pressure, speed, description;
+    public static String fg, name, desc, io, humidity, pressure, speed, description,current_time;
     public String TAG = "MainActivity.class";
     public static int temp, visibility;
     public static long sunr, suns;
@@ -310,6 +310,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         editor.putString("speed", speed);
         editor.putLong("sunrise", sunr);
         editor.putLong("sunset", suns);
+        editor.putInt("imageid",updateimage(desc));
+        editor.putString("current_time",current_time);
 
         editor.apply();
 
@@ -325,9 +327,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         as.add(sharedPreferences.getString("pressure","pressure"));
         as.add(sharedPreferences.getString("visibility","visibility"));
         as.add(sharedPreferences.getString("speed","speed"));
-        as.add(Double.toString(sharedPreferences.getLong("sunrise",0000)));
-        as.add(Double.toString(sharedPreferences.getLong("sunset",0000)));
+        as.add(gettime(sharedPreferences.getLong("sunrise",0000)));
+        as.add(gettime(sharedPreferences.getLong("sunset",0000)));
         ri.setAdapter(arrayAdapter2);
+        imageView.setImageResource(sharedPreferences.getInt("imageid",R.drawable.cloud));
+        sd.setText(sharedPreferences.getString("current_time","00:00"));
+
     }
 
     private String getcurrenttime()
@@ -335,7 +340,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         Date today = new Date();
         SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
         String dateToStr = format.format(today);
-        return ("Last update: "+dateToStr);
+        current_time= "Last update: "+dateToStr;
+        return current_time;
     }
 
     private void display_value()
@@ -362,8 +368,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     private int updateimage(String a)
     {
 
-        Toast.makeText(this,a, Toast.LENGTH_SHORT).show();
-
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
@@ -387,7 +391,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         }
         if (a.equals("Clouds"))
         {
-            Toast.makeText(this,Double.toString(timeOfDay), Toast.LENGTH_SHORT).show();
             if(timeOfDay >= 5 && timeOfDay <=18)
                 return R.drawable.cloud_sun;
             else
